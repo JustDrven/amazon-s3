@@ -8,8 +8,9 @@ import (
 
 	"github.com/charmbracelet/log"
 	"justdrven.dev/storage/command/configuration"
+	"justdrven.dev/storage/internal/api/bucket"
 	"justdrven.dev/storage/internal/api/common"
-	apiMonitor "justdrven.dev/storage/internal/api/monitor"
+	"justdrven.dev/storage/internal/api/object"
 	"justdrven.dev/storage/internal/repository/router"
 	"justdrven.dev/storage/pkg"
 )
@@ -22,7 +23,7 @@ func Main(file *os.File) {
 		panic(err)
 	}
 
-	StartAPI(*config)
+	Start(*config)
 }
 
 func isPortAvaliable(port int) error {
@@ -39,23 +40,53 @@ func NotFoundHandler(res http.ResponseWriter, req *http.Request) {
 	})
 }
 
-func registerRouters() {
-	log.Info("Enabling endpoints..")
+func registerCommonEndpoints() {
 
 	router.Endpoint{
 		Path:    "/",
 		Handler: NotFoundHandler,
 	}.Register()
 
+}
+
+func registerUserEndpoints() {
+
+}
+
+func registerBucketEndpoints() {
+
 	router.Endpoint{
 		Method:  router.GET,
-		Path:    "/monitor/health",
-		Handler: apiMonitor.MonitorHandler,
+		Path:    "/bucket/{bucket}/{key...}",
+		Handler: bucket.GetListBucketResultHandler,
 	}.Register()
 
 }
 
-func StartAPI(config configuration.ConfigData) {
+func registerObjectEndpoints() {
+
+	router.Endpoint{
+		Method:  router.GET,
+		Path:    "/object/view/{bucket}/{key...}",
+		Handler: object.GetObjectHandler,
+	}.Register()
+
+}
+
+func registerRouters() {
+	log.Info("Enabling endpoints..")
+
+	registerCommonEndpoints()
+	registerUserEndpoints()
+
+	registerBucketEndpoints()
+	registerObjectEndpoints()
+
+	log.Info("Endpoints are complete!")
+
+}
+
+func Start(config configuration.ConfigData) {
 	port := config.Port
 
 	err := isPortAvaliable(config.Port)

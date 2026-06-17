@@ -1,5 +1,5 @@
 {
     "port": 3323,
     "jwtSecret": "",
-    "storageFolderPath": "./buckets/"
+    "storageFolderPath": "./object-storage/"
 }
