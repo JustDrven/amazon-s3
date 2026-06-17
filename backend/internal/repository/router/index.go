@@ -7,7 +7,6 @@ import (
 )
 
 const (
-	ALL    = ""
 	GET    = "GET"
 	POST   = "POST"
 	PUT    = "PUT"
@@ -27,11 +26,9 @@ func (endpoint Endpoint) Register() {
 	}
 
 	http.HandleFunc(finalPath, endpoint.Handler)
-	if method != ALL {
+	if method != "" {
 		log.Info("Register new router", "METHOD", method, "PATH", path)
-
 	} else {
-		log.Warn("The default method will be GET")
-		log.Warn("Register new router", "PATH", path)
+		log.Info("Register new router", "PATH", path)
 	}
 }

@@ -43,7 +43,6 @@ func registerRouters() {
 	log.Info("Enabling endpoints..")
 
 	router.Endpoint{
-		Method:  router.ALL,
 		Path:    "/",
 		Handler: NotFoundHandler,
 	}.Register()
