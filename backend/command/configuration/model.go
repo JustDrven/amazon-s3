@@ -1,5 +1,7 @@
 package configuration
 
 type ConfigData struct {
-	Port int `json:"port"`
+	JwtSecret         string `json:"jwtSecret"`
+	Port              int    `json:"port"`
+	StorageFolderPath string `json:"storageFolderPath"`
 }

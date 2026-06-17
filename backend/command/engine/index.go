@@ -1,17 +1,21 @@
 package engine
 
 import (
-	"errors"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
 
 	"github.com/charmbracelet/log"
 	"justdrven.dev/storage/command/configuration"
+	"justdrven.dev/storage/internal/api/common"
+	apiMonitor "justdrven.dev/storage/internal/api/monitor"
+	"justdrven.dev/storage/internal/repository/router"
+	"justdrven.dev/storage/pkg"
 )
 
 func Main(file *os.File) {
-	log.Info("Starting to prepare service to startup..")
+	log.Info("Starting engine..")
 
 	config, err := configuration.LoadConfig(file)
 	if err != nil {
@@ -22,26 +26,48 @@ func Main(file *os.File) {
 }
 
 func isPortAvaliable(port int) error {
-	if port < 0 {
-		return errors.New("The API port can't be below zero!")
-	}
+	return pkg.IsPortAvaliable(port)
+}
 
-	if port > 65535 {
-		return errors.New("The API port reached the limit!")
-	}
+func NotFoundHandler(res http.ResponseWriter, req *http.Request) {
+	common.SetJsonType(res)
 
-	return nil
+	encoder := json.NewEncoder(res)
+	encoder.Encode(NotFoundResponse{
+		Code:    404,
+		Message: "NOT_FOUND",
+	})
+}
+
+func registerRouters() {
+	log.Info("Enabling endpoints..")
+
+	router.Endpoint{
+		Method:  router.ALL,
+		Path:    "/",
+		Handler: NotFoundHandler,
+	}.Register()
+
+	router.Endpoint{
+		Method:  router.GET,
+		Path:    "/monitor/health",
+		Handler: apiMonitor.MonitorHandler,
+	}.Register()
+
 }
 
 func StartAPI(config configuration.ConfigData) {
 	port := config.Port
 
-	log.Info("Starting API", "port", port)
 	err := isPortAvaliable(config.Port)
 	if err != nil {
 		panic(err)
 	}
 
-	http.ListenAndServe(fmt.Sprintf(":%d", config.Port), nil)
+	registerRouters()
 
+	address := fmt.Sprintf(":%d", port)
+	log.Info("The service is listening!", "port", port)
+
+	http.ListenAndServe(address, nil)
 }

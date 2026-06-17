@@ -10,6 +10,8 @@ import (
 	"github.com/charmbracelet/log"
 )
 
+var cachedConfig ConfigData
+
 func LoadConfig(config *os.File) (*ConfigData, error) {
 	defer config.Close()
 	log.Info("Scanning config..", "file", config.Name())
@@ -26,5 +28,11 @@ func LoadConfig(config *os.File) (*ConfigData, error) {
 		return nil, errors.New("failed to decode json data")
 	}
 
+	cachedConfig = *data
+
 	return data, nil
+}
+
+func GetConfig() ConfigData {
+	return cachedConfig
 }
