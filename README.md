@@ -22,9 +22,6 @@ go build
 - Create enduser service ❌
 - Make middleware to authorize service ❌
 
-#### Frontend
-- Start to coding ❌
-
 -----
 
 <div align="center">
