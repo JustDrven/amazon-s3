@@ -6,17 +6,35 @@ import (
 	"github.com/charmbracelet/log"
 )
 
+type EndpointMethod int
+
 const (
-	GET    = "GET"
-	POST   = "POST"
-	PUT    = "PUT"
-	DELETE = "DELETE"
+	GET EndpointMethod = iota
+	POST
+	PUT
+	DELETE
 )
+
+func getMethod(method EndpointMethod) string {
+	switch method {
+	case POST:
+		return "POST"
+	case PUT:
+		return "PUT"
+	case DELETE:
+		return "DELETE"
+	case GET:
+	default:
+		return "GET"
+	}
+
+	return "GET"
+}
 
 func (endpoint Endpoint) Register() {
 	var finalPath string
 
-	method := endpoint.Method
+	method := getMethod(endpoint.Method)
 	path := endpoint.Path
 
 	if len(method) == 0 {

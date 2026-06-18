@@ -3,7 +3,7 @@ package router
 import "net/http"
 
 type Endpoint struct {
-	Method string
+	Method EndpointMethod
 	Path   string
 
 	Handler func(http.ResponseWriter, *http.Request)

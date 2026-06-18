@@ -84,7 +84,6 @@ func registerRouters() {
 	registerObjectEndpoints()
 
 	log.Info("Endpoints are complete!")
-
 }
 
 func Start(config configuration.ConfigData) {
