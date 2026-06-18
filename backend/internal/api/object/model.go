@@ -8,8 +8,3 @@ type GetObjectResult struct {
 	Size     int    `xml:"Size"`
 	Content  string `xml:"Content"`
 }
-
-type GetObjectFailedResult struct {
-	Code    int    `xml:"Code"`
-	Message string `xml:"Message"`
-}

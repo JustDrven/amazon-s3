@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"justdrven.dev/storage/command/configuration"
+	"justdrven.dev/storage/cmd/configuration"
 	"justdrven.dev/storage/internal/api/common"
 
 	objectManager "justdrven.dev/storage/internal/repository/object"
@@ -43,7 +43,7 @@ func GetObjectHandler(res http.ResponseWriter, req *http.Request) {
 	encoder := xml.NewEncoder(res)
 
 	if err != nil {
-		encoder.Encode(GetObjectFailedResult{
+		encoder.Encode(common.APIErrorResponse{
 			Code:    code,
 			Message: err.Error(),
 		})

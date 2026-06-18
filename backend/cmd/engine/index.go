@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/charmbracelet/log"
-	"justdrven.dev/storage/command/configuration"
+	"justdrven.dev/storage/cmd/configuration"
 	"justdrven.dev/storage/internal/api/bucket"
 	"justdrven.dev/storage/internal/api/common"
 	"justdrven.dev/storage/internal/api/object"
@@ -16,6 +16,7 @@ import (
 )
 
 func Main(file *os.File) {
+
 	log.Info("Starting engine..")
 
 	config, err := configuration.LoadConfig(file)
@@ -34,7 +35,7 @@ func NotFoundHandler(res http.ResponseWriter, req *http.Request) {
 	common.SetJsonType(res)
 
 	encoder := json.NewEncoder(res)
-	encoder.Encode(NotFoundResponse{
+	encoder.Encode(common.APIErrorResponse{
 		Code:    404,
 		Message: "NOT_FOUND",
 	})

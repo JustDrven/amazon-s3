@@ -3,10 +3,12 @@ package main
 import (
 	"os"
 
-	"justdrven.dev/storage/command/engine"
+	"github.com/charmbracelet/log"
+	"justdrven.dev/storage/cmd/engine"
+	"justdrven.dev/storage/pkg"
 )
 
-func main() {
+func claimConfigFileName() string {
 	args := os.Args
 	config := "./config.json"
 
@@ -14,10 +16,20 @@ func main() {
 		config = args[1]
 	}
 
+	return config
+}
+
+func main() {
+	pkg.PrintLogo()
+
+	config := claimConfigFileName()
 	configFile, configErr := os.Open(config)
-	if configErr != nil {
-		panic(configErr)
+
+	if configErr == nil {
+		engine.Main(configFile)
+	} else {
+		log.Fatal(configErr.Error())
+		os.Exit(1)
 	}
 
-	engine.Main(configFile)
 }

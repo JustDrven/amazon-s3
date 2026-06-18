@@ -9,12 +9,12 @@ import (
 func GetContent(filePath string) ([]byte, int, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
-		return make([]byte, 0), 404, errors.New("Couldn't open the file!")
+		return make([]byte, 0), 404, errors.New("couldn't open the file!")
 	}
 
 	bytes, readErr := io.ReadAll(file)
 	if readErr != nil {
-		return make([]byte, 0), 500, errors.New("Couldn't read the file!")
+		return make([]byte, 0), 500, errors.New("couldn't read the file!")
 	}
 
 	defer file.Close()
