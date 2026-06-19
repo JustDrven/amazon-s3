@@ -32,10 +32,11 @@ func systemCommand(input string) bool {
 
 }
 
-func computeCommandArgs(args []string) []string {
+func computeCommandArgs(args interpreter.CommandArgs) []string {
 	if len(args) <= 1 {
-		return []string{}
+		return interpreter.CommandArgs{}
 	}
+
 	return args[1:]
 }
 

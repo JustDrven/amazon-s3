@@ -16,7 +16,7 @@ make
 ### TODO
 
 - Add Caching ✅
-- Create enduser service ❌
+- Create enduser service ✅
 - Make middleware to authorize service ❌
 
 -----

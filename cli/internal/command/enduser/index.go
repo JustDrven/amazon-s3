@@ -31,7 +31,11 @@ func EndUserCommand(args interpreter.CommandArgs) {
 		action := strings.ToLower(args[0])
 
 		if action == "list" {
-			users := enduser.Map()
+			users := enduser.FindAll()
+			if len(users) == 0 {
+				log.Warn("users are empty!")
+				return
+			}
 			index := 1
 
 			for i := range users {

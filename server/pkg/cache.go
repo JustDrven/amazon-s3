@@ -2,6 +2,10 @@ package pkg
 
 import "github.com/dgraph-io/ristretto"
 
+const (
+	MAX_REFERENCES = 10
+)
+
 func NewCache() *ristretto.Cache {
 	cache, err := ristretto.NewCache(&ristretto.Config{
 		NumCounters: 1e7,

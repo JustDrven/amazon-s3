@@ -6,13 +6,13 @@ import (
 	"errors"
 	"os"
 
-	"justdrven.dev/storage/internal/security"
 	"justdrven.dev/storage/shared/src/configuration"
+	"justdrven.dev/storage/shared/src/security"
 )
 
 var data = map[string]*User{}
 
-func Map() map[string]*User {
+func FindAll() map[string]*User {
 	return data
 }
 
@@ -75,11 +75,12 @@ func Flush() error {
 }
 
 func Delete(name string) bool {
-	_, exist := data[name]
-	if exist {
+
+	if _, founded := data[name]; founded {
 
 		delete(data, name)
 		Flush()
+
 		return true
 
 	}

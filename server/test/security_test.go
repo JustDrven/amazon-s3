@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"justdrven.dev/storage/internal/security"
+	"justdrven.dev/storage/shared/src/security"
 )
 
 const (

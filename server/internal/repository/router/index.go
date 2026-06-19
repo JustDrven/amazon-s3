@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/charmbracelet/log"
+	"justdrven.dev/storage/shared/src/security"
 )
 
 type EndpointMethod int
@@ -37,13 +38,15 @@ func (endpoint Endpoint) Register() {
 	method := getMethod(endpoint.Method)
 	path := endpoint.Path
 
-	if len(method) == 0 {
+	if method == "" {
 		finalPath = path
 	} else {
 		finalPath = method + " " + path
 	}
 
-	http.HandleFunc(finalPath, endpoint.Handler)
+	domain := http.HandlerFunc(endpoint.Handler)
+	http.Handle(finalPath, security.CommonMiddleware(domain))
+
 	if method != "" {
 		log.Info("Register new router", "METHOD", method, "PATH", path)
 	} else {
