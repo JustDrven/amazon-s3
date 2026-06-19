@@ -10,6 +10,8 @@ import (
 	"justdrven.dev/storage/cli/internal/interpreter"
 	"justdrven.dev/storage/pkg"
 	"justdrven.dev/storage/shared/src/configuration"
+
+	endUserRepository "justdrven.dev/storage/shared/src/repository/enduser"
 )
 
 func claimConfigFileName() string {
@@ -36,6 +38,11 @@ func registerCommands() {
 	}.Register()
 }
 
+func loadProviders(file *os.File) {
+	configuration.LoadConfig(file)
+	endUserRepository.Fetch()
+}
+
 func main() {
 	pkg.PrintLogo()
 
@@ -47,7 +54,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	configuration.LoadConfig(configFile)
+	loadProviders(configFile)
 	registerCommands()
 
 	client.Start()
