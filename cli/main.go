@@ -32,14 +32,8 @@ func registerCommands() {
 
 	interpreter.Command{
 		Type:     interpreter.ENDUSER,
-		Executor: enduser.AddEndUserCommand,
+		Executor: enduser.EndUserCommand,
 	}.Register()
-
-	interpreter.Command{
-		Type:     interpreter.ENDUSER,
-		Executor: enduser.RemoveEndUserCommand,
-	}.Register()
-
 }
 
 func main() {

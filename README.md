@@ -2,7 +2,7 @@
 
 # 💽 Amazon S3
 
-This repository contains 2 parts, that's ``backend`` and ``frontend``!
+My own version Amazon Web Service Simple Storage Service (AWS S3) written in Golang
 
 </div>
 
@@ -10,8 +10,7 @@ This repository contains 2 parts, that's ``backend`` and ``frontend``!
 ### How to Build
 
 ```shell
-cd backend/
-go build
+make
 ```
 
 ### TODO
