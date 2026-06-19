@@ -5,12 +5,16 @@ import (
 	"encoding/xml"
 	"net/http"
 	"strings"
+	"time"
 
 	"justdrven.dev/storage/cmd/configuration"
 	"justdrven.dev/storage/internal/api/common"
+	"justdrven.dev/storage/pkg"
 
 	objectManager "justdrven.dev/storage/internal/repository/object"
 )
+
+var OBJECT_CACHE = pkg.NewCache()
 
 func getFileName(key string) string {
 	if !strings.Contains(key, "/") {
@@ -38,10 +42,15 @@ func GetObjectHandler(res http.ResponseWriter, req *http.Request) {
 	bucket := req.PathValue("bucket")
 	key := req.PathValue("key")
 	bucketPath := path + bucket + "/" + key
-
-	data, code, err := objectManager.GetContent(bucketPath)
 	encoder := xml.NewEncoder(res)
 
+	if val, found := OBJECT_CACHE.Get(bucketPath); found {
+		result := val.(GetObjectResult)
+		encoder.Encode(result)
+		return
+	}
+
+	data, code, err := objectManager.GetContent(bucketPath)
 	if err != nil {
 		encoder.Encode(common.APIErrorResponse{
 			Code:    code,
@@ -54,7 +63,7 @@ func GetObjectHandler(res http.ResponseWriter, req *http.Request) {
 
 	encoded := base64.StdEncoding.EncodeToString(data)
 
-	encoder.Encode(GetObjectResult{
+	result := GetObjectResult{
 		Prefix: bucket,
 		Name:   key,
 
@@ -64,6 +73,10 @@ func GetObjectHandler(res http.ResponseWriter, req *http.Request) {
 		Size: len(data),
 
 		Content: encoded,
-	})
+	}
+
+	OBJECT_CACHE.SetWithTTL(bucketPath, result, 1, 5*time.Second)
+
+	encoder.Encode(result)
 
 }

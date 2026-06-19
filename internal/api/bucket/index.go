@@ -3,6 +3,7 @@ package bucket
 import (
 	"encoding/xml"
 	"net/http"
+	"time"
 
 	"justdrven.dev/storage/cmd/configuration"
 	"justdrven.dev/storage/internal/api/common"
@@ -11,6 +12,8 @@ import (
 
 	"justdrven.dev/storage/pkg"
 )
+
+var BUCKET_CACHE = pkg.NewCache()
 
 func getFullPath(bucket string, key string) string {
 
@@ -28,14 +31,25 @@ func GetListBucketResultHandler(res http.ResponseWriter, req *http.Request) {
 	key := req.PathValue("key")
 	path := getFullPath(bucket, key)
 
+	encoder := xml.NewEncoder(res)
+
+	if val, found := BUCKET_CACHE.Get(path); found {
+		result := val.(*bucketManager.ListBucketResult)
+
+		encoder.Encode(result)
+		return
+	}
+
 	results, err := bucketManager.GetListObjects(bucket, key, path)
 	if err != nil {
-		xml.NewEncoder(res).Encode(common.APIErrorResponse{
+		encoder.Encode(common.APIErrorResponse{
 			Code:    404,
 			Message: err.Error(),
 		})
 		return
 	}
+
+	BUCKET_CACHE.SetWithTTL(path, results, 1, 10*time.Second)
 
 	xml.NewEncoder(res).Encode(results)
 

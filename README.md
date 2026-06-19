@@ -16,9 +16,7 @@ go build
 
 ### TODO
 
-
-#### Backend
-- Add Caching ❌
+- Add Caching ✅
 - Create enduser service ❌
 - Make middleware to authorize service ❌
 

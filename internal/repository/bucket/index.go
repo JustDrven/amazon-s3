@@ -8,7 +8,6 @@ import (
 )
 
 func computeObjectPath(bucket string, key string, name string) string {
-
 	// TODO: Improve this function, this is big a piece of dog shit
 	path := bucket + "/" + key + "/" + name
 
@@ -53,13 +52,14 @@ func GetListObjects(bucket string, key string, path string) (*ListBucketResult, 
 			ETag:         base64.StdEncoding.EncodeToString(data),
 		}
 	}
-
-	return &ListBucketResult{
+	toReturn := &ListBucketResult{
 		Name:     key,
 		Prefix:   bucket,
 		FullPath: path,
 
 		KeyCount: len(contents),
 		Contents: contents,
-	}, nil
+	}
+
+	return toReturn, nil
 }
