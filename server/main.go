@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"github.com/charmbracelet/log"
-	"justdrven.dev/storage/cmd/engine"
+	"justdrven.dev/storage/cmd"
 	"justdrven.dev/storage/pkg"
 )
 
@@ -26,7 +26,7 @@ func main() {
 	configFile, configErr := os.Open(config)
 
 	if configErr == nil {
-		engine.Main(configFile)
+		cmd.Main(configFile)
 	} else {
 		log.Fatal(configErr.Error())
 		os.Exit(1)

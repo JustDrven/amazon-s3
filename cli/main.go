@@ -4,8 +4,12 @@ import (
 	"os"
 
 	"github.com/charmbracelet/log"
-	"justdrven.dev/storage/cmd/configuration"
+	"justdrven.dev/storage/cli/client"
+	"justdrven.dev/storage/cli/internal/command/enduser"
+	"justdrven.dev/storage/cli/internal/command/ping"
+	"justdrven.dev/storage/cli/internal/interpreter"
 	"justdrven.dev/storage/pkg"
+	"justdrven.dev/storage/shared/src/configuration"
 )
 
 func claimConfigFileName() string {
@@ -17,6 +21,25 @@ func claimConfigFileName() string {
 	}
 
 	return config
+}
+
+func registerCommands() {
+
+	interpreter.Command{
+		Type:     interpreter.PING,
+		Executor: ping.PingCommand,
+	}.Register()
+
+	interpreter.Command{
+		Type:     interpreter.ENDUSER,
+		Executor: enduser.AddEndUserCommand,
+	}.Register()
+
+	interpreter.Command{
+		Type:     interpreter.ENDUSER,
+		Executor: enduser.RemoveEndUserCommand,
+	}.Register()
+
 }
 
 func main() {
@@ -31,5 +54,8 @@ func main() {
 	}
 
 	configuration.LoadConfig(configFile)
+	registerCommands()
+
+	client.Start()
 
 }

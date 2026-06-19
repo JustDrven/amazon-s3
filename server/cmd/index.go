@@ -1,4 +1,4 @@
-package engine
+package cmd
 
 import (
 	"encoding/json"
@@ -7,12 +7,12 @@ import (
 	"os"
 
 	"github.com/charmbracelet/log"
-	"justdrven.dev/storage/cmd/configuration"
 	"justdrven.dev/storage/internal/api/bucket"
 	"justdrven.dev/storage/internal/api/common"
 	"justdrven.dev/storage/internal/api/object"
 	"justdrven.dev/storage/internal/repository/router"
 	"justdrven.dev/storage/pkg"
+	"justdrven.dev/storage/shared/src/configuration"
 )
 
 func Main(file *os.File) {

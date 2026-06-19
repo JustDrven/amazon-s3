@@ -1,4 +1,4 @@
-package engine
+package cmd
 
 type NotFoundResponse struct {
 	Code    int    `json:"code"`

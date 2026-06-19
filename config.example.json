@@ -1,5 +1,5 @@
 {
     "port": 3323,
-    "storageFolderPath": "./object-storage/storage",
-    "enduserFilePath": "./object-storage/enduser.json"
+    "storageFolderPath": "./server/object-storage/storage/",
+    "enduserFilePath": "./server/object-storage/enduser.json"
 }

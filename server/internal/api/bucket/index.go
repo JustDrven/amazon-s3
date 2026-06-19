@@ -5,12 +5,13 @@ import (
 	"net/http"
 	"time"
 
-	"justdrven.dev/storage/cmd/configuration"
 	"justdrven.dev/storage/internal/api/common"
 
 	bucketManager "justdrven.dev/storage/internal/repository/bucket"
-
 	"justdrven.dev/storage/pkg"
+	"justdrven.dev/storage/shared/src/configuration"
+
+	pkgShared "justdrven.dev/storage/shared/src/pkg"
 )
 
 var BUCKET_CACHE = pkg.NewCache()
@@ -18,7 +19,8 @@ var BUCKET_CACHE = pkg.NewCache()
 func getFullPath(bucket string, key string) string {
 
 	mainFolder := configuration.GetConfig().StorageFolderPath
-	pkg.FixFolderPath(&mainFolder)
+
+	pkgShared.FixFolderPath(&mainFolder)
 
 	return mainFolder + bucket + "/" + key
 

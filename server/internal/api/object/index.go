@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"justdrven.dev/storage/cmd/configuration"
 	"justdrven.dev/storage/internal/api/common"
 	"justdrven.dev/storage/pkg"
+	"justdrven.dev/storage/shared/src/configuration"
 
 	objectManager "justdrven.dev/storage/internal/repository/object"
 )
