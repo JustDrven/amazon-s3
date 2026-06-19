@@ -6,7 +6,10 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 	"justdrven.dev/storage/internal/api/common"
+	"justdrven.dev/storage/shared/src/security/ratelimit"
 )
+
+var rateLimiter = ratelimit.NewRateLimiter()
 
 func Hash(value string) string {
 	hash, err := bcrypt.GenerateFromPassword([]byte(value), 14)
@@ -22,7 +25,7 @@ func Compare(hash, value string) bool {
 }
 
 func isRatelimitOk(req *http.Request) bool {
-	return true
+	return rateLimiter.Allow(req.RemoteAddr)
 }
 
 func CommonMiddleware(next http.Handler) http.Handler {
@@ -38,6 +41,21 @@ func CommonMiddleware(next http.Handler) http.Handler {
 
 			return
 		}
+
+		/**
+
+		if !isAuthOk(r) {
+			common.SetJsonType(w)
+
+			json.NewEncoder(w).Encode(common.APIErrorResponse{
+				Code:    403,
+				Message: "Access denied!",
+			})
+
+			return
+		}
+
+			**/
 
 		next.ServeHTTP(w, r)
 	})

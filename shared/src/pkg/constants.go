@@ -1,0 +1,8 @@
+package pkg
+
+const (
+	RATELIMIT_REQUESTS = 15
+	RATELIMIT_DURATION = 6
+
+	RATELIMIT_BLOCK_TIME = 1
+)
