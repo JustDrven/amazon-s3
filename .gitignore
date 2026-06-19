@@ -1,4 +1,5 @@
-storage
+bin/
+
 config.json
 .DS_Store
 object-storage/
