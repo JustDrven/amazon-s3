@@ -1,6 +1,8 @@
 <div align="center">
 
-# 💽 Amazon S3
+# AWS S3 <img src="./images/logo.png" alt="aws s3 logo" width="23" />
+
+
 
 My own version Amazon Web Service Simple Storage Service (AWS S3) written in Golang
 
@@ -13,11 +15,7 @@ My own version Amazon Web Service Simple Storage Service (AWS S3) written in Gol
 make
 ```
 
-### TODO
-
-- Add Caching ✅
-- Create enduser service ✅
-- Make middleware to authorize service ❌
+and a ``bin/`` directory should be created. You'll find the compiled files there.
 
 -----
 
