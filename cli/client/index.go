@@ -15,9 +15,9 @@ func Start() {
 	log.Info("")
 	log.Info("			WELCOME ON AMAZON CLI")
 	log.Info("")
-	log.Info("	If you don't know what to do... type")
-	log.Info("		- help")
-	log.Info("")
+	log.Info("	SYSTEM COMMANDS:")
+	log.Info("		- help | Prints all commands to use")
+	log.Info("		- exit | Leaves the CLI")
 	log.Info("")
 
 	for {

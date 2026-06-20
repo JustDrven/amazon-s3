@@ -2,10 +2,9 @@ package syntax
 
 import (
 	"errors"
-	"os"
 	"strings"
 
-	"github.com/charmbracelet/log"
+	"justdrven.dev/storage/cli/internal/command/system"
 	"justdrven.dev/storage/cli/internal/interpreter"
 )
 
@@ -13,22 +12,14 @@ func systemCommand(input string) bool {
 
 	value := strings.ToLower(input)
 
-	if value == "exit" {
-		log.Info("")
-		log.Info("GOODBYE <3")
-		log.Info("")
-		os.Exit(0)
-		return true
+	switch value {
+	case "exit":
+		return system.RunExit()
+	case "help":
+		return system.RunHelp()
+	default:
+		return false
 	}
-
-	if value == "help" {
-		log.Info("")
-		log.Info("GOODBYE <3")
-		log.Info("")
-		return true
-	}
-
-	return false
 
 }
 

@@ -8,8 +8,8 @@ import (
 	"justdrven.dev/storage/cli/internal/command/enduser"
 	"justdrven.dev/storage/cli/internal/command/ping"
 	"justdrven.dev/storage/cli/internal/interpreter"
-	"justdrven.dev/storage/pkg"
 	"justdrven.dev/storage/shared/src/configuration"
+	"justdrven.dev/storage/shared/src/pkg"
 
 	endUserRepository "justdrven.dev/storage/shared/src/repository/enduser"
 )

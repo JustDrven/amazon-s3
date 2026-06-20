@@ -5,7 +5,7 @@ import (
 
 	"github.com/charmbracelet/log"
 	"justdrven.dev/storage/cmd"
-	"justdrven.dev/storage/pkg"
+	"justdrven.dev/storage/shared/src/pkg"
 )
 
 func claimConfigFileName() string {
